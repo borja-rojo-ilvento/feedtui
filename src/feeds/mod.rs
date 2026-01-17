@@ -1,0 +1,66 @@
+pub mod hackernews;
+pub mod rss;
+pub mod sports;
+pub mod stocks;
+
+use anyhow::Result;
+use async_trait::async_trait;
+
+#[derive(Debug, Clone)]
+pub struct FeedMessage {
+    pub widget_id: String,
+    pub data: FeedData,
+}
+
+#[derive(Debug, Clone)]
+pub enum FeedData {
+    HackerNews(Vec<HnStory>),
+    Stocks(Vec<StockQuote>),
+    Rss(Vec<RssItem>),
+    Sports(Vec<SportsEvent>),
+    Loading,
+    Error(String),
+}
+
+#[derive(Debug, Clone)]
+pub struct HnStory {
+    pub id: u64,
+    pub title: String,
+    pub url: Option<String>,
+    pub score: u32,
+    pub by: String,
+    pub descendants: u32,
+}
+
+#[derive(Debug, Clone)]
+pub struct StockQuote {
+    pub symbol: String,
+    pub price: f64,
+    pub change: f64,
+    pub change_percent: f64,
+    pub name: String,
+}
+
+#[derive(Debug, Clone)]
+pub struct RssItem {
+    pub title: String,
+    pub link: Option<String>,
+    pub published: Option<String>,
+    pub source: String,
+}
+
+#[derive(Debug, Clone)]
+pub struct SportsEvent {
+    pub league: String,
+    pub home_team: String,
+    pub away_team: String,
+    pub home_score: Option<u32>,
+    pub away_score: Option<u32>,
+    pub status: String,
+    pub start_time: Option<String>,
+}
+
+#[async_trait]
+pub trait FeedFetcher: Send + Sync {
+    async fn fetch(&self) -> Result<FeedData>;
+}

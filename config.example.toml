@@ -1,0 +1,39 @@
+# feedtui configuration
+# Copy this file to ~/.config/feedtui/config.toml
+
+[general]
+refresh_interval_secs = 60
+theme = "dark"
+
+# Hacker News - top left
+[[widgets]]
+type = "hackernews"
+title = "Hacker News"
+story_count = 10
+story_type = "top"  # top, new, best
+position = { row = 0, col = 0 }
+
+# Stocks - top right
+[[widgets]]
+type = "stocks"
+title = "Portfolio"
+symbols = ["AAPL", "GOOGL", "MSFT", "NVDA", "TSLA"]
+position = { row = 0, col = 1 }
+
+# Tech News (RSS) - bottom left
+[[widgets]]
+type = "rss"
+title = "Tech News"
+feeds = [
+  "https://feeds.arstechnica.com/arstechnica/technology-lab",
+  "https://www.theverge.com/rss/index.xml"
+]
+max_items = 10
+position = { row = 1, col = 0 }
+
+# Sports - bottom right
+[[widgets]]
+type = "sports"
+title = "Sports"
+leagues = ["nba", "nfl", "epl"]
+position = { row = 1, col = 1 }
