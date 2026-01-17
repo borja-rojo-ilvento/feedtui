@@ -21,11 +21,11 @@ struct Args {
 async fn main() -> Result<()> {
     let args = Args::parse();
 
-    // Load config
+    // Load config from ~/.feedtui/config.toml (cross-platform)
     let config_path = args.config.unwrap_or_else(|| {
-        dirs::config_dir()
+        dirs::home_dir()
             .unwrap_or_else(|| PathBuf::from("."))
-            .join("feedtui")
+            .join(".feedtui")
             .join("config.toml")
     });
 
