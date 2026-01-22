@@ -19,7 +19,7 @@ pub enum FeedData {
     Stocks(Vec<StockQuote>),
     Rss(Vec<RssItem>),
     Sports(Vec<SportsEvent>),
-    Github(Vec<GithubNotification>),
+    Github(GithubDashboard),
     Loading,
     Error(String),
 }
@@ -72,6 +72,44 @@ pub struct GithubNotification {
     pub unread: bool,
     pub updated_at: String,
     pub reason: String,
+}
+
+#[derive(Debug, Clone)]
+pub struct GithubPullRequest {
+    pub id: u64,
+    pub number: u32,
+    pub title: String,
+    pub repository: String,
+    pub state: String,
+    pub author: String,
+    pub created_at: String,
+    pub updated_at: String,
+    pub draft: bool,
+    pub mergeable: Option<bool>,
+    pub comments: u32,
+    pub review_comments: u32,
+    pub additions: u32,
+    pub deletions: u32,
+}
+
+#[derive(Debug, Clone)]
+pub struct GithubCommit {
+    pub sha: String,
+    pub message: String,
+    pub author: String,
+    pub repository: String,
+    pub branch: String,
+    pub timestamp: String,
+    pub additions: u32,
+    pub deletions: u32,
+    pub url: String,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct GithubDashboard {
+    pub notifications: Vec<GithubNotification>,
+    pub pull_requests: Vec<GithubPullRequest>,
+    pub commits: Vec<GithubCommit>,
 }
 
 #[async_trait]

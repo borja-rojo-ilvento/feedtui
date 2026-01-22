@@ -195,6 +195,8 @@ impl App {
                     KeyCode::BackTab => self.prev_widget(),
                     KeyCode::Down | KeyCode::Char('j') => self.scroll_down(),
                     KeyCode::Up | KeyCode::Char('k') => self.scroll_up(),
+                    KeyCode::Left | KeyCode::Char('h') => self.switch_tab_prev(),
+                    KeyCode::Right | KeyCode::Char('l') => self.switch_tab_next(),
                     _ => {}
                 }
             }
@@ -294,6 +296,32 @@ impl App {
     fn scroll_up(&mut self) {
         if !self.widgets.is_empty() {
             self.widgets[self.selected_widget].scroll_up();
+        }
+    }
+
+    fn switch_tab_next(&mut self) {
+        if !self.widgets.is_empty() {
+            if let Some(widget) = self.widgets.get_mut(self.selected_widget) {
+                if let Some(github_widget) = widget
+                    .as_any_mut()
+                    .and_then(|w| w.downcast_mut::<GithubWidget>())
+                {
+                    github_widget.next_tab();
+                }
+            }
+        }
+    }
+
+    fn switch_tab_prev(&mut self) {
+        if !self.widgets.is_empty() {
+            if let Some(widget) = self.widgets.get_mut(self.selected_widget) {
+                if let Some(github_widget) = widget
+                    .as_any_mut()
+                    .and_then(|w| w.downcast_mut::<GithubWidget>())
+                {
+                    github_widget.prev_tab();
+                }
+            }
         }
     }
 

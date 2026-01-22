@@ -135,17 +135,48 @@ pub struct GithubConfig {
     #[serde(default = "default_github_title")]
     pub title: String,
     pub token: String,
+    pub username: String,
+    #[serde(default = "default_show_notifications")]
+    pub show_notifications: bool,
+    #[serde(default = "default_show_pull_requests")]
+    pub show_pull_requests: bool,
+    #[serde(default = "default_show_commits")]
+    pub show_commits: bool,
     #[serde(default = "default_max_notifications")]
     pub max_notifications: usize,
+    #[serde(default = "default_max_pull_requests")]
+    pub max_pull_requests: usize,
+    #[serde(default = "default_max_commits")]
+    pub max_commits: usize,
     pub position: Position,
 }
 
 fn default_github_title() -> String {
-    "GitHub Notifications".to_string()
+    "GitHub Dashboard".to_string()
+}
+
+fn default_show_notifications() -> bool {
+    true
+}
+
+fn default_show_pull_requests() -> bool {
+    true
+}
+
+fn default_show_commits() -> bool {
+    true
 }
 
 fn default_max_notifications() -> usize {
     20
+}
+
+fn default_max_pull_requests() -> usize {
+    10
+}
+
+fn default_max_commits() -> usize {
+    10
 }
 
 impl Config {
