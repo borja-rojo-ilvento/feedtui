@@ -326,11 +326,13 @@ fn format_published_date(iso_date: &str) -> String {
         .unwrap_or(iso_date)
         .to_string()
 }
-
 fn truncate_description(desc: &str) -> String {
-    if desc.len() > 100 {
-        format!("{}...", &desc[..97])
+    let char_count = desc.chars().count();
+    if char_count > 100 {
+        let truncated: String = desc.chars().take(97).collect();
+        format!("{}...", truncated)
     } else {
         desc.to_string()
     }
+
 }
