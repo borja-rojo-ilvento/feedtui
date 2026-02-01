@@ -415,7 +415,8 @@ impl CreatureMenu {
     fn render_skills(&mut self, frame: &mut Frame, area: Rect, creature: &Creature) {
         let skills = get_skill_tree();
         let mut skill_list: Vec<_> = skills.into_iter().collect();
-        skill_list.sort_by(|a, b| a.1.cost.cmp(&b.1.cost));
+        // Sort by cost, then by ID for stable ordering (prevents flickering)
+        skill_list.sort_by(|a, b| a.1.cost.cmp(&b.1.cost).then_with(|| a.0.cmp(&b.0)));
 
         let items: Vec<ListItem> = skill_list
             .iter()
